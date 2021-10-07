@@ -25,7 +25,7 @@ const CardTracks  =({results}:cardTrackProps)=>{
                             </Button>
                              `Temperature from {result.main.temp_min} to {result.main.temp_max} wind {result.wind.speed} {result.clouds.all}` 
                         </ListGroup.Item>
-                        <Link className= 'link' to={"/city/" + result.id}><ListGroup>
+                        <Link style={{color:'lightskyblue'}} className= 'link' to={"/city/" + result.id}><ListGroup>
                             `Geo Cordinations[{result.coord.lat}, {result.coord.lon}]`
                         </ListGroup></Link>
                         

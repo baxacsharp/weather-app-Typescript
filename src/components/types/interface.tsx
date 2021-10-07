@@ -5,6 +5,12 @@ export interface WeatherTypes{
     lat: number
   },
  current:{
+weather: [{
+  description:string,
+  main:string,
+  id:string | number,
+  icon:string
+}]
 clouds: number,
 dew_point: number,
 dt:number,
@@ -15,8 +21,22 @@ sunrise: number,
 sunset: number,
 temp: number,
 uvi: number,
-visibility: number
+visibility: number,
+wind_speed:number
 },
+daily:[{
+  dt:number,
+  temp:{
+    day:number,
+    night:number
+  }
+  weather:[{
+     description:string,
+  main:string,
+  id:string | number,
+  icon:string
+  }]
+}]
 hourly:[{
 clouds: number,
 dew_point: number,
@@ -27,7 +47,15 @@ pop: number,
 pressure: number,
 temp: number,
 uvi: number,
-visibility: number
+visibility: number,
+  weather:[
+    {
+      id: string | number
+      main: string,
+      description: string,
+      icon: string
+    }],
+    wind_speed:number
 }]
   weather:[
     {

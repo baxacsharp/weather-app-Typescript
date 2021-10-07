@@ -12,7 +12,7 @@ const Weather =(props:id)=>{
      useEffect(()=>{
             const getData = async()=>{
             try {
-                const result = await fetch (`https://api.openweathermap.org/data/2.5/weather?id=${props.id}&appid=ee553c9b7b8c2358a28cb4b0282148bb`)
+                const result = await fetch (`https://api.openweathermap.org/data/2.5/weather?id=${props.id}&units=imperial&appid=e2e356d64b1568f1e802ed5b4a88a3b3`)
                 if (result.ok) {
                     const data = await result.json()
                     console.log(data)
