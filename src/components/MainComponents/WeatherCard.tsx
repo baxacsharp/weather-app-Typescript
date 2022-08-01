@@ -1,9 +1,7 @@
 import {Container,Row,Col,Image,Form, Card,Carousel, CardGroup} from 'react-bootstrap'
 import { WeatherTypes } from '../types/interface'
-import { lightFormat } from 'date-fns'
 import {useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {Line} from 'react-chartjs-2'
 interface latAndLongtitude {
     latitude:number,
     longtitude:number
@@ -19,7 +17,7 @@ const [hourly, setHourly] = useState('')
 `)
                 if (result.ok) {
                     const data = await result.json()
-                    console.log(data)
+                    console.log(data.hourly)
                     setData(data)
                 } else throw new Error("Failed to fetch")
             } catch (error) {
@@ -35,6 +33,7 @@ const [hourly, setHourly] = useState('')
             day:'numeric'
         })
     const formatHours=(hours:number)=>{
+        //hours in the API  is in Unix format(time of total seconds), so we need to convert it to hours
         const hour = new Date(hours * 1000).getHours()
         const suffix = hour >= 12 ? 'Pm' : 'Am'
         const joined = ((hour + 11) % 12 + 1) + suffix
@@ -55,6 +54,7 @@ const [hourly, setHourly] = useState('')
             return formattedDate
         }
     }
+    
     return(
         <>
         
@@ -66,33 +66,33 @@ const [hourly, setHourly] = useState('')
                 <Row>
                     <div><h4>Current Weather</h4></div>
            
-                    <StyledCol md={6}>
+                    <StyledCol xs={12} md={6}>
                         {data && <Image src={`http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`}></Image>}
                         <h2> {data?.current.temp} C</h2>
                     </StyledCol>
-                    <Col md={6}>
+                    <Col xs={12} md={6}>
                         {data && <div style={{marginTop:'10px'}}>{data.current.weather[0].description} </div>}
                         <h6>Feels like {data?.current.feels_like} C</h6>
                     </Col>
                     <Col xs={12}>
                         <Row>
-                            <Col xs={2}>
+                            <Col xs={4} md={2}>
                                 <h6>Wind</h6>
                                 <p>{data?.current.wind_speed} km/h</p>
                             </Col>
-                            <Col xs={2}>
+                            <Col xs={4} md={2}>
                                 <h6>Humidity</h6>
                                 <p>{data?.current.humidity} %</p>
                             </Col>
-                            <Col xs={2}>
+                           <Col xs={4} md={2}>
                                 <h6>Visibility</h6>
                                 <p>{data?.current.visibility} m</p>
                             </Col>
-                            <Col xs={2}>
+                           <Col xs={4} md={2}>
                                 <h6>Pressure</h6>
                                 <p>{data?.current.pressure} mb</p>
                             </Col>
-                            <Col xs={2}>
+                           <Col xs={4} md={2}>
                                 <h6>Dev points</h6>
                                 <p>{data?.current.dew_point}</p>
                             </Col>
@@ -108,8 +108,8 @@ const [hourly, setHourly] = useState('')
             <Carousel wrap={false} interval={null}>
                 <Carousel.Item>
                      <Row>
-                     {data?.daily.slice(0,4).map((daily)=>(
-                        <Col xs={3}>
+                     {data?.daily.slice(0,3).map((daily)=>(
+                        <Col xs={12} md={4} >
                         <div >
                              <StyledCardGroup> 
                             <StyledCardDaily className='card' >
@@ -136,8 +136,36 @@ const [hourly, setHourly] = useState('')
                 </Carousel.Item>
                 <Carousel.Item>
                      <Row>
-                     {data?.daily.slice(4,7).map((daily)=>(
-                        <Col xs={4}>
+                     {data?.daily.slice(3,6).map((daily)=>(
+                        <Col xs={12} md={4}>
+                        <div >
+                             <StyledCardGroup> 
+                            <StyledCardDaily className='card' >
+                                <StyledCardText>{formatDays(daily.dt)} </StyledCardText>
+                                <StyledCardBody>
+                                <StyledCardImage  src={`http://openweathermap.org/img/wn/${daily.weather[0].icon}@2x.png`} />
+                                <div>
+                                     <Card.Text>
+                                        {daily.temp.day} C
+                                    </Card.Text>
+                                    <Card.Text>
+                                        {daily.temp.night} C
+                                    </Card.Text>
+                                  </div> 
+                                </StyledCardBody>
+                            </StyledCardDaily>
+                              </StyledCardGroup>
+                        </div>
+                    </Col>
+               
+           
+                ))}
+                 </Row>
+                </Carousel.Item>
+                 <Carousel.Item>
+                     <Row>
+                     {data?.daily.slice(6).map((daily)=>(
+                        <Col xs={12} md={6}>
                         <div >
                              <StyledCardGroup> 
                             <StyledCardDaily className='card' >
@@ -168,7 +196,7 @@ const [hourly, setHourly] = useState('')
             <Carousel.Item> 
                  <Row>
                      {data?.hourly.slice(0,6).map((hourly)=>(
-                        <Col xs={2}>
+                        <Col xs={4} md={2}>
                         <div >
                              <StyledCardGroup> 
                             <StyledCard className='card' >
@@ -202,7 +230,7 @@ const [hourly, setHourly] = useState('')
                  <Carousel.Item> 
                  <Row>
                      {data?.hourly.slice(6,12).map((hourly)=>(
-                        <Col xs={2}>
+                        <Col xs={4} md={2}>
                         <div >
                              <StyledCardGroup> 
                             <StyledCard className='card' >
@@ -235,7 +263,7 @@ const [hourly, setHourly] = useState('')
                  <Carousel.Item> 
                  <Row>
                      {data?.hourly.slice(12,18).map((hourly)=>(
-                        <Col xs={2}>
+                        <Col xs={4} md={2}>
                         <div >
                              <StyledCardGroup> 
                             <StyledCard className='card' >
@@ -268,7 +296,7 @@ const [hourly, setHourly] = useState('')
                  <Carousel.Item> 
                  <Row>
                      {data?.hourly.slice(18,24).map((hourly)=>(
-                        <Col xs={2}>
+                        <Col xs={4} md={2}>
                         <div >
                              <StyledCardGroup> 
                             <StyledCard className='card' >
@@ -332,7 +360,7 @@ padding-left:25px;
 ` 
 const StyledCardDaily = styled(Card) `
 background-color: #2a5c8b;
-width:150px;
+
 height:150px;
 `
 const StyledCardImage = styled(Card.Img)`

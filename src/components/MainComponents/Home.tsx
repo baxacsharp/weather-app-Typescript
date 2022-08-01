@@ -10,16 +10,16 @@ interface HomeProps {
 }
 const Home  =(props:HomeProps)=>{
     return(
-        <Navbar bg="light" expand="lg">
+        <StyledNavbar bg="light" >
                 <Navbar.Brand href="#home">Bax-weather-App</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                
                 <Navbar.Collapse id="basic-navbar-nav">
                     <StyledNav>
-                        <StyledForm inline onSubmit={props.handleSubmit} style={{width:'200px'}}>
+                        <StyledForm inline onSubmit={props.handleSubmit}>
                         <FormControl 
                     type="text"
                     placeholder="Search for the City"
-                    className="mr-sm-2"
+                    
                     value ={props.search}
                     onChange={props.handleQuery}
                        />
@@ -28,16 +28,26 @@ const Home  =(props:HomeProps)=>{
                     </StyledNav>
                   
                 </Navbar.Collapse>
-            </Navbar>
+            </StyledNavbar>
     )
 }
 export default Home
-
+const StyledNavbar = styled(Navbar)`
+@media only screen and (max-width:420px){
+    display:flex;
+    flex-direction:column;
+}
+`
 const StyledNav = styled(Nav) `
 display: flex !important;
 justify-content: center !important;
 margin-left:400px;
+
+@media only screen and (max-width:1000px){
+    margin-left:50px;
+}
 `
 const StyledForm = styled(Form) `
 width:200px !important;
+
 `
